@@ -3,9 +3,9 @@ import pandas as pd
 import random
 
 # Constantes de cálculo
-LR = 0.1 # Taxa de Aprendizado -  quanto mais alta, mas ele arrisca
+LR = 0.6 # Taxa de Aprendizado -  quanto mais alta, mas ele arrisca
 DF = 0.6 # Fator de Desconto - importância da recompensa imediata
-RF = 18  # Constante de aleatoriedade
+RF = 40  # Constante de aleatoriedade
 
 # Lista de Movimentos
 dict_mov = ['left', 'right', 'jump']
@@ -39,9 +39,13 @@ def printBlocosValue():
             plataforma, pos, *[round(matrix[i][plataforma],3) for i in range(3)]
         ))
 
+#Uma função de mod para fazer o valor randômico/learning rate com o tempo, necessário para uma aprendizagem mais segura
+def EpsilomLearningDecay(x,y):
+    return x % y == 0
+
 if __name__ == "__main__":
     # Quantidade de Movimentos e Sucessos
-    N_LOOPS = 100
+    #N_LOOPS = 100
     success = 0
 
     # Setando a plataforma inicial e a posicao
@@ -68,14 +72,18 @@ if __name__ == "__main__":
             direcaoNova = getNextMove(plataformaNova, matrix)
             print(f'next move: {direcaoNova}')
             # Atualizo o valor da matrix para aquele bloco utlizando o calculo QL
+            print(f"teste {direcaoAtual} {plataformaAtual}")
             matrix[direcaoAtual][plataformaAtual] = qLearning(matrix, direcaoAtual, direcaoNova, 
                                                               plataformaAtual, plataformaNova)
             plataformas_visitadas = plataformas_visitadas | {plataformaAtual}
             printBlocosValue()
             # Atualizo as novas direcoes e plataforma
             direcaoAtual, plataformaAtual = direcaoNova, plataformaNova
+            print(f"teste {direcaoAtual} {plataformaAtual}")
             i +=1
+            if EpsilomLearningDecay(i,10000):
+                RF -= 0.5
+                LR -= 0.01
             matrix.to_csv('resultado.txt', header=None, index=None, mode='w', sep = ' ')
-        
         print(f'total success: {success}')
         appConnect.close()
