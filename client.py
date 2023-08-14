@@ -3,9 +3,9 @@ import pandas as pd
 import random
 
 # Constantes de cálculo
-LR = 0.6 # Taxa de Aprendizado -  quanto mais alta, mas ele arrisca
-DF = 0.6 # Fator de Desconto - importância da recompensa imediata
-RF = 40  # Constante de aleatoriedade
+LR = 0.9 # Taxa de Aprendizado -  quanto mais alta, mas ele arrisca
+DF = 0.9 # Fator de Desconto - importância da recompensa imediata
+RF = 10  # Constante de aleatoriedade
 
 # Lista de Movimentos
 dict_mov = ['left', 'right', 'jump']
@@ -27,8 +27,11 @@ def getNextMove(bloco, matrix)->float:
     return valores_blocos.index(max(valores_blocos))
 
 def qLearning(matrix, direcaoAtual, direcaoNova, blocoAtual, blocoNovo)->float:
-    return  (matrix[direcaoAtual][blocoAtual] + 
-             LR * (reward + DF * matrix[direcaoNova][blocoNovo] - matrix[direcaoAtual][blocoAtual]))
+    return  (matrix[direcaoAtual][blocoAtual] + LR * (reward + DF * matrix[direcaoNova][blocoNovo] - matrix[direcaoAtual][blocoAtual]))
+
+#controle manual
+def manual():
+    return int(input())
 
 def printBlocosValue():
     print('|Bloco-pos|left |right|jump |')
