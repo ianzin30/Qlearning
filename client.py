@@ -3,8 +3,8 @@ import pandas as pd
 import random
 
 # Constantes de cálculo
-LR = 0.9 # Taxa de Aprendizado -  quanto mais alta, mas ele arrisca
-DF = 0.9 # Fator de Desconto - importância da recompensa imediata
+LR = 0.85 # Taxa de Aprendizado -  quanto mais alta, mas ele arrisca
+DF = 0.85 # Fator de Desconto - importância da recompensa imediata
 RF = 10  # Constante de aleatoriedade
 
 # Lista de Movimentos
